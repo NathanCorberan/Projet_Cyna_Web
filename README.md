@@ -32,10 +32,13 @@ Ce projet a été réalisé dans le cadre de notre cursus en Bachelor Développe
 
 1. **Cloner le dépôt Git** : `git clone https://github.com/NathanCorberan/Projet_Cyna_Web.git`
 2. **Front-end** :
-    *Créer le projet React - Vue : `npm create vite@latest projet_cyna_web -- --template react`
-    *Installer les dépendances dans votre projet : `npm install`
-    *Installer d'autres bibliothèques si besoin : `npm install react-router-dom ` `npm install axios` `npm install eslint --save-dev` `npm install --save-dev prettier`
-    *Lancer l'application : `npm run dev`
+    * Créer le projet React - Vue : `npm create vite@latest projet_cyna_web -- --template react`
+
+    * Installer les dépendances dans votre projet : `npm install`
+
+    * Installer d'autres bibliothèques si besoin : `npm install react-router-dom ` `npm install axios` `npm install eslint --save-dev` `npm install --save-dev prettier`
+
+    * Lancer l'application : `npm run dev`
 3. **Back-end** :
 
 4. **Application mobile** :
