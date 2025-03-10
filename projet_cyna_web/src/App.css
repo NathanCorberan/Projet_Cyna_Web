@@ -1,8 +1,57 @@
+body, html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #302082;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.main-content {
+  flex: 1;
   padding: 2rem;
-  text-align: center;
+  text-align: left;
+  margin-top: 5rem;
+  margin-bottom: 3rem;
+}
+
+.search-bar input {
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: none;
+}
+
+.icons i {
+  color: white;
+  margin-left: 1rem;
+  cursor: pointer;
+}
+
+.footer {
+  background-color: #302082;
+  color: white;
+  padding: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
 
 .logo {
