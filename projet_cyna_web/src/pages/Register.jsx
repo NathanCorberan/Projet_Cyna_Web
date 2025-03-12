@@ -13,7 +13,7 @@ const Register = () => {
       <button>Créer mon compte</button>
       <Link to="/login">Déja client ? Connectez-vous</Link>
       <hr />
-      <p>Ou connectez-vous avec</p>
+      <p className='or-connection-with'>Ou connectez-vous avec</p>
       <div className="social-icons">
         <i className="fa-brands fa-google"></i>
         <i className="fa-brands fa-facebook"></i>

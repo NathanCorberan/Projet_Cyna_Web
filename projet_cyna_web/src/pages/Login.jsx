@@ -15,7 +15,7 @@ const Login = () => {
       <a href="#">Mot de passe oublié ?</a>
       <Link to="/register">Nouveau ? Créer un compte</Link>
       <hr />
-      <p>Ou connectez-vous avec</p>
+      <p className='or-connection-with'>Ou connectez-vous avec</p>
       <div className="social-icons">
         <i className="fa-brands fa-google"></i>
         <i className="fa-brands fa-facebook"></i>

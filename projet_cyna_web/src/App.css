@@ -311,7 +311,7 @@ html, body {
 .login-card hr::before {
   content: "Ou connectez-vous avec";
   position: absolute;
-  top: -1rem; /* Ajuster la position verticale */
+  top: -2.8rem;
   left: 50%;
   transform: translateX(-50%);
   background-color: #fff;
@@ -323,8 +323,9 @@ html, body {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  margin-top: 0.5rem; /* Ajouter un espace au-dessus des icônes */
+
 }
+
 .login-card .social-icons i {
   font-size: 1.5rem;
   cursor: pointer;
@@ -333,4 +334,8 @@ html, body {
 
 .login-card .social-icons i:hover {
   color: #4b3bbd;
+}
+
+.or-connection-with {
+  margin-top: -1rem;
 }
