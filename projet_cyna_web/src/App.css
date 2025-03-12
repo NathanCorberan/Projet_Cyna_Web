@@ -4,6 +4,7 @@
   --secondary-color: #61dafb;
   --text-color: #333;
   --border-color: #fff;
+  --quarter-color: #ff6b00;
 }
 
 html, body {
@@ -145,7 +146,7 @@ html, body {
   right: -285px;
   width: 200px;
   height: 100%;
-  background-color: var(--background-color);
+  background-color: var(--primary-color);
   color: var(--border-color);
   transition: right 0.3s ease, background-color 0.3s ease;
   padding: 1rem;
@@ -237,6 +238,10 @@ html, body {
   visibility: visible;
 }
 
+input{
+  background-color: var(--background-color);
+}
+
 .login-card {
   background-color: var(--background-color);
   border: 1px solid var(--primary-color);
@@ -269,7 +274,7 @@ html, body {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--primary-color);
   border-radius: 4px;
 }
 
