@@ -35,7 +35,9 @@ function App() {
   return (
     <>
       <header className="header">
-        <img src={logo} alt="Logo" className="logo" />
+        <Link to="/">
+          <img src={logo} alt="Logo" className="logo" />
+        </Link>
 
         <div className="search-bar">
           <input type="text" placeholder="Rechercher..." />
@@ -72,7 +74,7 @@ function App() {
           <i className="fa-brands fa-x-twitter"></i>
         </div>
         <div className="footer-copyright">
-        <p>&copy; {new Date().getFullYear()} Cyna. Tous droits réservés.</p>
+          <p>&copy; {new Date().getFullYear()} Cyna. Tous droits réservés.</p>
 
         </div>
       </footer>

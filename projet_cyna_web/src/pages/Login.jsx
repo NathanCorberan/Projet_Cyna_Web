@@ -10,7 +10,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://ipa.leonmorival.xyz/api/login', {
+      const response = await axios.post('http://api.juku7704.odns.fr/api/login', {
         email,
         password
       });
@@ -29,15 +29,21 @@ const Login = () => {
     <div className="login-card">
       <h2>Connexion</h2>
       {error && <p className="error">{error}</p>}
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+      <div className="input-container">
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <i className="fa-solid fa-envelope"></i>
+      </div>
+      <div className="input-container">
+        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <i className="fa-solid fa-lock"></i>
+      </div>
       <div className="remember-me">
         <input type="checkbox" id="remember-me" />
         <label htmlFor="remember-me">Se souvenir de moi</label>
       </div>
       <button onClick={handleLogin}>Se connecter</button>
-      <a href="#">Mot de passe oublié ?</a>
-      <Link to="/register">Nouveau ? Créer un compte</Link>
+      <a className='form-link' href="#">Mot de passe oublié ?</a>
+      <Link to="/register" className='form-link'>Nouveau ? Créer un compte</Link>
       <hr />
       <p className='or-connection-with'>Ou connectez-vous avec</p>
       <div className="social-icons">

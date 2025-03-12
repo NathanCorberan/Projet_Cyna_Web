@@ -18,9 +18,9 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post('https://ipa.leonmorival.xyz/api/users', {
+      const response = await axios.post('http://api.juku7704.odns.fr/api/users', {
         email,
-        roles: ['user'],
+        roles: ['ROLE_USER'],
         password,
         first_name: firstName,
         last_name: lastName,
@@ -39,11 +39,26 @@ const Register = () => {
     <div className="login-card">
       <h2>Créer un compte</h2>
       {error && <p className="error">{error}</p>}
-      <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <input type="text" placeholder="Nom" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-      <input type="text" placeholder="Prénom" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-      <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <input type="password" placeholder="Confirmer le mot de passe" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+      <div className="input-container">
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <i className="fa-solid fa-envelope"></i>
+      </div>
+      <div className="input-container">
+        <input type="text" placeholder="Nom" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        <i className="fa-solid fa-user"></i>
+      </div>
+      <div className="input-container">
+        <input type="text" placeholder="Prénom" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <i className="fa-solid fa-user"></i>
+      </div>
+      <div className="input-container">
+        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <i className="fa-solid fa-lock"></i>
+      </div>
+      <div className="input-container">
+        <input type="password" placeholder="Confirmer le mot de passe" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <i className="fa-solid fa-lock"></i>
+      </div>
       <button onClick={handleRegister}>Créer mon compte</button>
       <Link to="/login">Déja client ? Connectez-vous</Link>
       <hr />

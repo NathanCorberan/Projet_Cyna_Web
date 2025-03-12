@@ -249,6 +249,26 @@ input{
   background-color: var(--background-color);
 }
 
+.input-container {
+  position: relative;
+  width: 95.5%;
+}
+
+.input-container i {
+  position: absolute;
+  right: 1rem;
+  top: 20%;
+  color: var(--primary-color);
+}
+
+.input-container input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
+}
+
 .login-card {
   background-color: var(--background-color);
   border: 1px solid var(--primary-color);
@@ -267,7 +287,6 @@ input{
   transform: translate(-50%, -50%);
   width: 80%;
   height: 60%;
-
 }
 
 .login-card h2 {
@@ -296,18 +315,19 @@ input{
 }
 
 .login-card button {
-  width: 100%;
-  padding: 0.5rem;
   background-color: var(--primary-color);
   color: var(--border-color);
-  border: none;
-  border-radius: 4px;
   cursor: pointer;
+  transition: filter 300ms;
+  width: 100%;
+  padding: 0.5rem;
   margin-bottom: 1rem;
+  border: 1px solid var(--text-color);
+  border-radius: 4px;
 }
 
 .login-card button:hover {
-  background-color: var(--primary-color);
+  filter: drop-shadow(0 0 0.5em var(--primary-color));
 }
 
 .login-card a {
@@ -343,7 +363,6 @@ input{
   display: flex;
   justify-content: center;
   gap: 1rem;
-
 }
 
 .login-card .social-icons i {
