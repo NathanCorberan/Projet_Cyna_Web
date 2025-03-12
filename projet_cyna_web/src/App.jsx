@@ -72,7 +72,7 @@ function App() {
           <i className="fa-brands fa-x-twitter"></i>
         </div>
         <div className="footer-copyright">
-        <footer>&copy; {new Date().getFullYear()} Cyna. Tous droits réservés.</footer>
+        <p>&copy; {new Date().getFullYear()} Cyna. Tous droits réservés.</p>
 
         </div>
       </footer>
