@@ -20,7 +20,7 @@ const Register = () => {
     try {
       const response = await axios.post('https://ipa.leonmorival.xyz/api/users', {
         email,
-        roles: ['ROLE_USER'],
+        roles: ['user'],
         password,
         first_name: firstName,
         last_name: lastName,
