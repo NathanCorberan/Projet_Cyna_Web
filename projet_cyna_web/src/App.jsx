@@ -36,6 +36,7 @@ function App() {
     <>
       <header className="header">
         <img src={logo} alt="Logo" className="logo" />
+
         <div className="search-bar">
           <input type="text" placeholder="Rechercher..." />
         </div>
@@ -71,7 +72,8 @@ function App() {
           <i className="fa-brands fa-x-twitter"></i>
         </div>
         <div className="footer-copyright">
-          <p>&copy; 2025 Cyna. Tous droits réservés.</p>
+        <footer>&copy; {new Date().getFullYear()} Cyna. Tous droits réservés.</footer>
+
         </div>
       </footer>
       <aside className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
