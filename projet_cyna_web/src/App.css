@@ -255,7 +255,8 @@ html, body {
 }
 
 .login-card input[type="email"],
-.login-card input[type="password"] {
+.login-card input[type="password"],
+.login-card input[type="text"] {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;

@@ -4,6 +4,7 @@ import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import logo from './assets/Cyna_logo.png';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -54,6 +55,7 @@ function App() {
             </>
           } />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
       </main>
       <footer className="footer">
