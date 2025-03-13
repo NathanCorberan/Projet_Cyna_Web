@@ -7,6 +7,7 @@ const products = [
   { name: 'Produit 3', price: '25€', inStock: true },
   { name: 'Produit 4', price: '40€', inStock: false },
   { name: 'Produit 5', price: '15€', inStock: true },
+  { name: 'Produit 6', price: '50€', inStock: true },
 ];
 
 const Categories = () => {
@@ -19,7 +20,7 @@ const Categories = () => {
         </div>
       </div>
       <div className="category-description">
-        <p>Description de la catégorie. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.</p>
+        <p>Description de la catégorie.</p>
       </div>
       <div className="products-grid">
         {products.map((product, index) => (

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -17,8 +17,8 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        // Stocker le token dans le localStorage ou un autre endroit sécurisé
         localStorage.setItem('token', response.data.token);
+        onLogin(response.data.token); // Appeler onLogin après la connexion
         navigate('/');
       }
     } catch (error) {

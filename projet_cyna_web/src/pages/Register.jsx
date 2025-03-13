@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const Register = () => {
+const Register = ({ onRegister }) => {
   const [email, setEmail] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -30,7 +30,16 @@ const Register = () => {
       });
 
       if (response.status === 201) {
-        navigate('/login');
+        const loginResponse = await axios.post('http://api.juku7704.odns.fr/api/login', {
+          email,
+          password
+        });
+
+        if (loginResponse.status === 200) {
+          localStorage.setItem('token', loginResponse.data.token);
+          onRegister(loginResponse.data.token); // Appeler onRegister après l'inscription
+          navigate('/');
+        }
       }
     } catch (error) {
       setError('Erreur lors de la création du compte');
@@ -48,7 +57,6 @@ const Register = () => {
   return (
     <div className="login-card">
       <h2>Créer un compte</h2>
-      {error && <p className="error">{error}</p>}
       <div className="input-container">
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <i className="fa-solid fa-envelope"></i>
@@ -89,6 +97,7 @@ const Register = () => {
           style={{ cursor: "pointer", right: "2.5rem" }}
         ></i>
       </div>
+      {error && <p className="error">{error}</p>}
       <button onClick={handleRegister}>Créer mon compte</button>
       <Link to="/login">Déja client ? Connectez-vous</Link>
       <hr />

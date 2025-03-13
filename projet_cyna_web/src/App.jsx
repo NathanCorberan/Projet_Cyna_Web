@@ -1,5 +1,6 @@
-import { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 import './App.css';
 import logo from './assets/Cyna_logo.png';
@@ -21,6 +22,30 @@ function App() {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const [activeMenu, setActiveMenu] = useState(null);
   const [selectedMenu, setSelectedMenu] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const navigate = useNavigate();
+
+  const fetchUserData = async (token) => {
+    try {
+      const response = await axios.get('http://api.juku7704.odns.fr/api/me', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      setFirstName(response.data.first_name);
+      setIsLoggedIn(true);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des informations utilisateur', error);
+    }
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      fetchUserData(token);
+    }
+  }, []);
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -42,6 +67,12 @@ function App() {
     setSelectedMenu(menu);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/'); // Rediriger vers la page d'accueil après la déconnexion
+  };
+
   return (
     <>
       <header className="header">
@@ -53,6 +84,7 @@ function App() {
           <input type="text" placeholder="Rechercher..." />
         </div>
         <div className="icons">
+          {isLoggedIn && <span className="welcome-message">Bonjour, {firstName}</span>}
           <i className="fa-solid fa-language"></i>
           <i className="fa-solid fa-cart-shopping"></i>
           <Link to="/login"><i className="fa-solid fa-user"></i></Link>
@@ -68,8 +100,8 @@ function App() {
               <Carousel images={images} />
             </>
           } />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={fetchUserData} />} />
+          <Route path="/register" element={<Register onRegister={fetchUserData} />} />
           <Route path="/categories" element={<Categories />} />
         </Routes>
       </main>
@@ -103,7 +135,7 @@ function App() {
             onClick={() => handleMenuClick('categories')}
             className={activeMenu === 'categories' || selectedMenu === 'categories' ? 'active' : ''}
           >
-            <Link to="/categories">Catégories</Link>
+            Catégories
           </li>
           <li
             onMouseEnter={() => handleMouseEnter('recherche')}
@@ -166,6 +198,11 @@ function App() {
           >
             Mon compte
           </li>
+          {isLoggedIn && (
+            <li onClick={handleLogout}>
+              Se déconnecter
+            </li>
+          )}
         </ul>
       </aside>
       <div className={`overlay ${isSidebarOpen ? 'show' : ''}`} onClick={toggleSidebar}></div>
