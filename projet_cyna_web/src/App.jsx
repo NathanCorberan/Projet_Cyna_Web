@@ -5,16 +5,15 @@ import './App.css';
 import logo from './assets/Cyna_logo.png';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Categories from './pages/Categories';
 import Carousel from './components/Carousel';
 
 const images = [
   'http://img.juku7704.odns.fr/SOC.png',
   'http://img.juku7704.odns.fr/XDR.png',
   'http://img.juku7704.odns.fr/EDR.png',
-  'https://cdn.futura-sciences.com/cdn-cgi/image/width=1024,quality=60,format=auto/sources/images/dossier/773/01-intro-773.jpg',
-  'https://images.ctfassets.net/hrltx12pl8hq/28ECAQiPJZ78hxatLTa7Ts/2f695d869736ae3b0de3e56ceaca3958/free-nature-images.jpg?fit=fill&w=1200&h=630',
-  'https://img-cdn.pixlr.com/image-generator/history/65bb506dcb310754719cf81f/ede935de-1138-4f66-8ed7-44bd16efc709/medium.webp',
-  'https://blog.adobe.com/fr/topics/media_1ca79b205381242c5f8beaaee2f0e1cfb2aa8f324.png?width=750&format=png&optimize=medium'
+  'http://img.juku7704.odns.fr/carousel-img-1.png',
+  'http://img.juku7704.odns.fr/carousel-img-2.png',
 ];
 
 function App() {
@@ -71,6 +70,7 @@ function App() {
           } />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/categories" element={<Categories />} />
         </Routes>
       </main>
       <footer className="footer">
@@ -103,7 +103,7 @@ function App() {
             onClick={() => handleMenuClick('categories')}
             className={activeMenu === 'categories' || selectedMenu === 'categories' ? 'active' : ''}
           >
-            Catégories
+            <Link to="/categories">Catégories</Link>
           </li>
           <li
             onMouseEnter={() => handleMouseEnter('recherche')}
