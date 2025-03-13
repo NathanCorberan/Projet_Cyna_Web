@@ -5,6 +5,7 @@ import axios from 'axios';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -25,6 +26,10 @@ const Login = () => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <div className="login-card">
       <h2>Connexion</h2>
@@ -33,8 +38,18 @@ const Login = () => {
         <i className="fa-solid fa-envelope"></i>
       </div>
       <div className="input-container">
-        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <i className="fa-solid fa-lock"></i>
+        <i
+          className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+          onClick={toggleShowPassword}
+          style={{ cursor: "pointer", right: "2.5rem" }}
+        ></i>
       </div>
       <div className="remember-me" style={{ display: "none" }}>
         <input type="checkbox" id="remember-me"/>

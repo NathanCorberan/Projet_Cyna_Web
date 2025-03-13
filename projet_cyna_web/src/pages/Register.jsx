@@ -8,6 +8,8 @@ const Register = () => {
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -35,6 +37,14 @@ const Register = () => {
     }
   };
 
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleShowConfirmPassword = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
     <div className="login-card">
       <h2>Créer un compte</h2>
@@ -52,12 +62,32 @@ const Register = () => {
         <i className="fa-solid fa-user"></i>
       </div>
       <div className="input-container">
-        <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Mot de passe"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <i className="fa-solid fa-lock"></i>
+        <i
+          className={`fa-solid ${showPassword ? "fa-eye-slash" : "fa-eye"}`}
+          onClick={toggleShowPassword}
+          style={{ cursor: "pointer", right: "2.5rem" }}
+        ></i>
       </div>
       <div className="input-container">
-        <input type="password" placeholder="Confirmer le mot de passe" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+        <input
+          type={showConfirmPassword ? "text" : "password"}
+          placeholder="Confirmer le mot de passe"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
         <i className="fa-solid fa-lock"></i>
+        <i
+          className={`fa-solid ${showConfirmPassword ? "fa-eye-slash" : "fa-eye"}`}
+          onClick={toggleShowConfirmPassword}
+          style={{ cursor: "pointer", right: "2.5rem" }}
+        ></i>
       </div>
       <button onClick={handleRegister}>Créer mon compte</button>
       <Link to="/login">Déja client ? Connectez-vous</Link>
