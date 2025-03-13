@@ -21,14 +21,13 @@ const Login = () => {
         navigate('/');
       }
     } catch (error) {
-      setError('Erreur lors de la connexion');
+      setError('Email ou mot de passe incorrect');
     }
   };
 
   return (
     <div className="login-card">
       <h2>Connexion</h2>
-      {error && <p className="error">{error}</p>}
       <div className="input-container">
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <i className="fa-solid fa-envelope"></i>
@@ -37,10 +36,11 @@ const Login = () => {
         <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
         <i className="fa-solid fa-lock"></i>
       </div>
-      <div className="remember-me">
-        <input type="checkbox" id="remember-me" />
+      <div className="remember-me" style={{ display: "none" }}>
+        <input type="checkbox" id="remember-me"/>
         <label htmlFor="remember-me">Se souvenir de moi</label>
       </div>
+      {error && <p className="error">{error}</p>}
       <button onClick={handleLogin}>Se connecter</button>
       <a className='form-link' href="#">Mot de passe oublié ?</a>
       <Link to="/register" className='form-link'>Nouveau ? Créer un compte</Link>
