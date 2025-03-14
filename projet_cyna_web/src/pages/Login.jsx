@@ -18,7 +18,7 @@ const Login = ({ onLogin }) => {
 
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
-        onLogin(response.data.token); // Appeler onLogin après la connexion
+        onLogin(response.data.token);
         navigate('/');
       }
     } catch (error) {

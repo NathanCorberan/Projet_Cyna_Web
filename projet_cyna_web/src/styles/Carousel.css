@@ -1,4 +1,3 @@
-/* Styles du carousel */
 .carousel {
     position: relative;
     width: 100%;
@@ -16,7 +15,7 @@
   }
   
   .carousel-image {
-    width: calc(100% / 3 - 10px); /* 3 images par ligne avec un petit espace */
+    width: calc(100% / 3 - 10px);
     height: auto;
     object-fit: cover;
     border-radius: 5px;

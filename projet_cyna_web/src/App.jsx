@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Routes, Route, Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+// Page principale de l'application
 import './App.css';
 import logo from './assets/Cyna_logo.png';
 import Login from './pages/Login';
@@ -26,7 +26,8 @@ function App() {
   const [firstName, setFirstName] = useState('');
   const navigate = useNavigate();
 
-  const fetchUserData = async (token) => {
+  // requete a l api
+  const fetchUserData = async (token) => { 
     try {
       const response = await axios.get('http://api.juku7704.odns.fr/api/me', {
         headers: {
@@ -70,7 +71,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    navigate('/'); // Rediriger vers la page d'accueil après la déconnexion
+    navigate('/'); 
   };
 
   return (
@@ -162,8 +163,8 @@ function App() {
             onMouseLeave={handleMouseLeave}
             onClick={() => {
               handleMenuClick('categories');
-              navigate('/categories'); // Rediriger vers la page des catégories
-              toggleSidebar(); // Fermer le menu latéral
+              navigate('/categories'); 
+              toggleSidebar();
             }}
             className={activeMenu === 'categories' || selectedMenu === 'categories' ? 'active' : ''}
           >
