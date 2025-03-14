@@ -113,9 +113,16 @@ function App() {
           <a href="#">Contact</a>
         </div>
         <div className="footer-icons">
-          <i className="fa-brands fa-instagram"></i>
-          <i className="fa-brands fa-linkedin-in"></i>
-          <i className="fa-brands fa-x-twitter"></i>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <i className="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/cyna-it/" target="_blank" rel="noopener noreferrer">
+            <i className="fa-brands fa-linkedin-in"></i>
+          </a>
+          <a href="#" target="_blank" rel="noopener noreferrer">
+            <i className="fa-brands fa-x-twitter"></i>
+          </a>
+
         </div>
         <div className="footer-copyright">
           <p>&copy; {new Date().getFullYear()} Cyna. Tous droits réservés.</p>
@@ -132,7 +139,11 @@ function App() {
           <li
             onMouseEnter={() => handleMouseEnter('categories')}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleMenuClick('categories')}
+            onClick={() => {
+              handleMenuClick('categories');
+              navigate('/categories'); // Rediriger vers la page des catégories
+              toggleSidebar(); // Fermer le menu latéral
+            }}
             className={activeMenu === 'categories' || selectedMenu === 'categories' ? 'active' : ''}
           >
             Catégories

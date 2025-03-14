@@ -33,6 +33,7 @@ html, body {
   top: 0;
   left: 0;
   height: 60px;
+  z-index: 1000;
 }
 
 .main-content {
@@ -42,6 +43,8 @@ html, body {
   margin-top: 60px;
   margin-bottom: 60px;
   overflow-y: auto;
+  min-height: calc(140vh - 120px);
+  box-sizing: border-box;
 }
 
 .footer {
