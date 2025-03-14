@@ -1,69 +1,89 @@
-# Projet d'étude : Développement d'une plateforme e-commerce pour Cyna
+# nathancorberan-projet_cyna_web
 
-## Introduction
+## Description
+**nathancorberan-projet_cyna_web** est une application web e-commerce développée avec **React** et **Vite.js**. Elle permet aux utilisateurs d'acheter et gérer des abonnements aux solutions de sécurité SaaS proposées par Cyna. L'objectif du projet est d'offrir une expérience fluide et sécurisée pour les utilisateurs, ainsi qu'un back-office performant pour la gestion des produits et commandes.
 
-Ce projet a été réalisé dans le cadre de notre cursus en Bachelor Développement Informatique à Sup de Vinci. Il vise à développer une plateforme e-commerce pour l'entreprise Cyna, spécialisée dans la vente de solutions de sécurité SaaS (SOC, EDR, XDR). L'objectif est de proposer une plateforme innovante, adaptée à une clientèle internationale, permettant l'achat et la commande de produits de sécurité directement en ligne.
+## Prérequis
+Avant d'installer et d'exécuter ce projet, assurez-vous d'avoir les outils suivants installés :
 
-## Fonctionnalités
-
-* Plateforme e-commerce sécurisée, adaptée aux standards SaaS et intégrant des solutions de paiement en ligne robustes.
-* Expérience utilisateur optimale sur mobile (mobile-first) et application mobile Android, garantissant une accessibilité maximale.
-* Back-office complet pour la gestion des services, commandes et facturation.
-* Solution évolutive et maintenable, permettant l'ajout de fonctionnalités futures.
-* Recherche avancée avec filtrage et tri des services (titre, description, caractéristiques, prix, catégories, disponibilité).
-* Gestion du panier et processus de commande simplifié (inscription/connexion, adresse, paiement sécurisé).
-* Espace utilisateur pour la gestion du compte, abonnements, historique et factures.
-* Formulaire de contact et chatbot intégré pour l'assistance client.
-* Back-office pour la gestion des produits, utilisateurs, commandes et suivi des ventes (tableaux de bord et graphiques).
-
-## Technologies utilisées
-
-* **Front-end**: React + Vite.js
-* **Back-end**: API REST Symphony
-* **Application mobile**: Flutter
-* **Base de données**: SQLite
-* **Autres**: par exemple librairies, outils, etc
+- [Node.js](https://nodejs.org/) (version 18) et npm
+- [Git](https://git-scm.com/)
 
 ## Installation
 
-### Prérequis
+### 1. Cloner le dépôt
+```sh
+git clone https://github.com/NathanCorberan/Projet_Cyna_Web.git
+cd projet_cyna_web
+```
 
-* Node.js et npm installés sur votre machine
+### 2. Installer les dépendances
+```sh
+npm install
+```
 
-1. **Cloner le dépôt Git**: `git clone https://github.com/NathanCorberan/Projet_Cyna_Web.git`
-2. **Front-end**:
-    * Créer le projet React - Vue: `npm create vite@latest projet_cyna_web -- --template react`
-    * Installer les dépendances dans votre projet: `npm install`
-    * Installer d'autres bibliothèques si besoin: `npm install react-router-dom` `npm install axios` `npm install eslint --save-dev` `npm install --save-dev prettier`
-    * Lancer l'application: `npm run dev`
-3. **Back-end**:
+### 3. Configuration de l'environnement
+Créez un fichier `.env` à la racine du projet et ajoutez-y les variables d'environnement nécessaires (ex: URL de l'API backend).
 
-4. **Application mobile** :
+### 4. Lancer l'application
+```sh
+npm run dev
+```
+L'application sera accessible via `http://localhost:5173/`.
 
-   
-## Utilisation
+## Fonctionnalités principales
+- **Plateforme e-commerce** sécurisée avec gestion du panier et paiement en ligne
+- **Expérience mobile-first** optimisée
+- **Authentification et gestion des utilisateurs**
+- **Back-office** pour l'administration des produits, commandes et clients
+- **Recherche avancée** avec filtres et tri
+- **Gestion des abonnements**
+- **Assistance utilisateur** avec chatbot et formulaire de contact
 
-1. **Ouvrir l'application web** dans votre navigateur en copiant/collant le lien affiché dans la console (`http://localhost:5173/` par défaut).
-2. **Créer un compte** ou se connecter.
-3. **Parcourir les services SaaS** et les ajouter au panier.
-4. **Procéder au paiement** et gérer les abonnements depuis votre compte.
-5. **Télécharger l'application mobile** sur le Play Store (quand elle sera dispo).
+## Structure du projet
+Le projet suit une architecture modulaire :
+
+- **`src/`** : Code source principal
+  - **`components/`** : Composants réutilisables (ex: `Carousel.jsx`)
+  - **`pages/`** : Pages principales de l'application (connexion, accueil, produits, panier, etc.)
+  - **`styles/`** : Fichiers CSS
+  - **`assets/`** : Images et autres ressources statiques
+- **`public/`** : Contenu statique
+- **`package.json`** : Fichier de configuration npm
+- **`vite.config.js`** : Configuration Vite.js
+
+## API et Intégration Backend
+L'application communique avec une API REST développée en Symfony.
+Quelques endpoints utiles :
+- `GET /api/products` → Liste des produits
+- `POST /api/login_check` → Authentification JWT
+- `POST /api/orders` → Création de commande
 
 ## Tests
-
-* A completer prochainement...
+Pour exécuter les tests :
+```sh
+npm test
+```
 
 ## Déploiement
+### 1. Construire l'application pour la production
+```sh
+npm install
+npm run build
+```
+Le projet sera compilé et les fichiers de production seront placés dans le dossier `dist/`.
 
-* A completer prochainement aussi...
+### 2. Déploiement sur un serveur web (Ex: Vercel, Netlify, OVH...)
+Hébergez les fichiers générés dans `dist/` sur votre serveur.
 
 ## Auteurs
+- **Nathan Corberan** - Développement principal
+- **Joris Lecharpentier** - Contributions backend et sécurité
+- **Noah Barreau** - Expérience utilisateur et intégration API
+- **Liova Hovakimyan** - Développement front-end
 
-* Nathan Corberan -
-* Joris Lecharpentier -
-* Noah Barreau -
-* Liova Hovakimyan - Développement front-end site web
+## Licence
+Ce projet est sous licence **MIT**. Voir `LICENSE` pour plus de détails.
 
 ## Conclusion
-
-Ce projet nous a permis de mettre en pratique nos compétences en développement web et de travailler en équipe sur un projet concret et ambitieux. Nous sommes fiers du résultat et espérons que cette plateforme répondra aux besoins de l'entreprise Cyna.
+Ce projet a été un excellent exercice de mise en pratique de nos compétences en développement web et en gestion de projet. Nous espérons que cette plateforme répondra aux attentes de l'entreprise Cyna et de ses clients.
