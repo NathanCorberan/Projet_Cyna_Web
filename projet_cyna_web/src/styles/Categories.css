@@ -1,14 +1,22 @@
 .category-header {
   position: relative;
-  width: 100%;
+  width: calc(100% + 4rem);
   height: 300px;
   overflow: hidden;
+  margin-left: -2rem;
+  margin-top: -2rem;
+}
+
+.descriptionCategories {
+  font-size: large;
+  margin: 2rem;
 }
 
 .category-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+
 }
 
 .category-overlay {

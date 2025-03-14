@@ -18,7 +18,7 @@ Ce projet a été réalisé dans le cadre de notre cursus en Bachelor Développe
 
 ## Technologies utilisées
 
-* **Front-end**: React + Vue.js
+* **Front-end**: React + Vite.js
 * **Back-end**: API REST Symphony
 * **Application mobile**: Flutter
 * **Base de données**: SQLite

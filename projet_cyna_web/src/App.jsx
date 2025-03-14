@@ -81,13 +81,16 @@ function App() {
         </Link>
 
         <div className="search-bar">
-          <input type="text" placeholder="Rechercher..." />
+          <div className="input-container">
+            <input type="text" placeholder="Rechercher..." />
+            <i className="fa-solid fa-magnifying-glass"></i>
+          </div>
         </div>
         <div className="icons">
           {isLoggedIn && <span className="welcome-message">Bonjour, {firstName}</span>}
           <i className="fa-solid fa-language"></i>
           <i className="fa-solid fa-cart-shopping"></i>
-          <Link to="/login"><i className="fa-solid fa-user"></i></Link>
+          <Link to="/login"><i className="fa-solid fa-circle-user"></i></Link>
           <i className="fa-solid fa-list-ul" onClick={toggleSidebar}></i>
         </div>
       </header>
@@ -95,9 +98,27 @@ function App() {
         <Routes>
           <Route path="/" element={
             <>
-              <h1>Bienvenue sur notre site</h1>
-              <p>Explorez nos produits et services.</p>
+              <h1>Cyna protège les entreprises contre les cyberattaques</h1>
+              <p><strong>Explorez nos produits et services.</strong></p>
+              <br></br>
               <Carousel images={images} />
+              <div className="cards-container">
+                <div className="card">
+                  <h2>SOC</h2>
+                  <h3>SOC – Surveillez, détectez, protégez !</h3>
+                  <p>Un <strong>SOC</strong> assure une surveillance 24/7 pour identifier et neutraliser les cybermenaces avant qu'elles ne vous affectent.</p>
+                </div>
+                <div className="card">
+                  <h2>XDR</h2>
+                  <h3>XDR – La défense avancée unifiée</h3>
+                  <p>Avec <strong>XDR</strong>, bénéficiez d’une protection intelligente en connectant et analysant toutes vos sources de données pour une réponse plus rapide.</p>
+                </div>
+                <div className="card">
+                  <h2>EDR</h2>
+                  <h3>EDR – Sécurité maximale pour vos terminaux</h3>
+                  <p>Les solutions <strong>EDR</strong> détectent, analysent et stoppent les menaces directement sur vos postes de travail et serveurs.</p>
+                </div>
+              </div>
             </>
           } />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={fetchUserData} />} />
