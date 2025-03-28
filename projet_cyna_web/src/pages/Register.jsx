@@ -55,7 +55,7 @@ const Register = ({ onRegister }) => {
   };
 
   return (
-    <div className="login-card">
+    <div className="register-card">
       <h2>Créer un compte</h2>
       <div className="input-container">
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
