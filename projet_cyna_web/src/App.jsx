@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Categories from './pages/Categories';
 import Carousel from './components/Carousel';
+import Account from './pages/Account';
 
 const images = [
   'http://img.juku7704.odns.fr/SOC.png',
@@ -91,7 +92,9 @@ function App() {
           {isLoggedIn && <span className="welcome-message">Bonjour, {firstName}</span>}
           <i className="fa-solid fa-language"></i>
           <i className="fa-solid fa-cart-shopping"></i>
-          <Link to="/login"><i className="fa-solid fa-circle-user"></i></Link>
+          <Link to={isLoggedIn ? "/account" : "/login"}>
+            <i className="fa-solid fa-circle-user"></i>
+          </Link>
           <i className="fa-solid fa-list-ul" onClick={toggleSidebar}></i>
         </div>
       </header>
@@ -122,9 +125,10 @@ function App() {
               </div>
             </>
           } />
-          <Route path="/login" element={isLoggedIn ? <Navigate to="/" /> : <Login onLogin={fetchUserData} />} />
+          <Route path="/login" element={isLoggedIn ? <Navigate to="/account" /> : <Login onLogin={fetchUserData} />} />
           <Route path="/register" element={<Register onRegister={fetchUserData} />} />
           <Route path="/categories" element={<Categories />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       </main>
       <footer className="footer">
@@ -226,7 +230,11 @@ function App() {
           <li
             onMouseEnter={() => handleMouseEnter('mon-compte')}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleMenuClick('mon-compte')}
+            onClick={() => {
+              handleMenuClick('mon-compte');
+              navigate(isLoggedIn ? '/account' : '/login'); // Redirection conditionnelle
+              toggleSidebar();
+            }}
             className={activeMenu === 'mon-compte' || selectedMenu === 'mon-compte' ? 'active' : ''}
           >
             Mon compte
