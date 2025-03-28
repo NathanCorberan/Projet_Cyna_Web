@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../styles/Account.css';
 
-const Account = () => {
+const Account = ({ onUpdateFirstName }) => {
   const [userData, setUserData] = useState({
     id: '',
     lastName: '',
@@ -14,7 +14,8 @@ const Account = () => {
     newPassword: '',
     confirmPassword: '',
   });
-  const [message, setMessage] = useState('');
+  const [generalMessage, setGeneralMessage] = useState(''); // Message pour nom et prénom
+  const [passwordMessage, setPasswordMessage] = useState(''); // Message pour mot de passe
 
   const fetchUserData = async () => {
     const token = localStorage.getItem('token');
@@ -41,15 +42,14 @@ const Account = () => {
   const handleSave = async () => {
     const token = localStorage.getItem('token');
     if (!token) {
-      setMessage('Token non disponible. Veuillez vous reconnecter.');
+      setGeneralMessage('Token non disponible. Veuillez vous reconnecter.');
       return;
     }
 
     try {
       const response = await axios.patch(
-        `http://api.juku7704.odns.fr/api/users/${userData.id}`,
+        'http://api.juku7704.odns.fr/api/me/update',
         {
-          email: userData.email,
           first_name: userData.firstName,
           last_name: userData.lastName,
         },
@@ -62,23 +62,24 @@ const Account = () => {
       );
 
       if (response.status === 200) {
-        setMessage('Informations mises à jour avec succès.');
+        setGeneralMessage('Informations mises à jour avec succès.');
+        onUpdateFirstName(userData.firstName); // Mise à jour du prénom dans le header
       } else {
-        setMessage('Erreur inattendue lors de la mise à jour des informations.');
+        setGeneralMessage('Erreur inattendue lors de la mise à jour des informations.');
       }
     } catch (error) {
       console.error('Erreur lors de la mise à jour des informations utilisateur:', error);
 
       if (error.response) {
         if (error.response.status === 403) {
-          setMessage('Accès refusé. Vous n’avez pas les permissions nécessaires pour effectuer cette action.');
+          setGeneralMessage('Accès refusé. Vous n’avez pas les permissions nécessaires pour effectuer cette action.');
         } else if (error.response.status === 401) {
-          setMessage('Session expirée. Veuillez vous reconnecter.');
+          setGeneralMessage('Session expirée. Veuillez vous reconnecter.');
         } else {
-          setMessage(`Erreur: ${error.response.data.message || 'Une erreur est survenue.'}`);
+          setGeneralMessage(`Erreur: ${error.response.data.message || 'Une erreur est survenue.'}`);
         }
       } else {
-        setMessage('Erreur lors de la mise à jour des informations.');
+        setGeneralMessage('Erreur lors de la mise à jour des informations.');
       }
     }
   };
@@ -88,7 +89,7 @@ const Account = () => {
     if (!token) return;
 
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setMessage('Les mots de passe ne correspondent pas.');
+      setPasswordMessage('Les mots de passe ne correspondent pas.');
       return;
     }
 
@@ -107,10 +108,10 @@ const Account = () => {
           },
         }
       );
-      setMessage('Mot de passe mis à jour avec succès.');
+      setPasswordMessage('Mot de passe mis à jour avec succès.');
     } catch (error) {
       console.error('Erreur lors de la mise à jour du mot de passe', error);
-      setMessage('Erreur lors de la mise à jour du mot de passe.');
+      setPasswordMessage('Erreur lors de la mise à jour du mot de passe.');
     }
   };
 
@@ -131,6 +132,7 @@ const Account = () => {
               placeholder="Nom"
               className="input-field"
               value={userData.lastName}
+              maxLength={30}
               onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
             />
             <input
@@ -138,6 +140,7 @@ const Account = () => {
               placeholder="Prénom"
               className="input-field"
               value={userData.firstName}
+              maxLength={30}
               onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
             />
           </div>
@@ -147,8 +150,13 @@ const Account = () => {
           placeholder="Email"
           className="input-field"
           value={userData.email}
-          onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+          readOnly
         />
+        {generalMessage && (
+          <p className={`message ${generalMessage.includes('succès') ? 'success' : 'error'}`}>
+            {generalMessage}
+          </p>
+        )}
         <button className="save-button" onClick={handleSave}>
           Sauvegarder
         </button>
@@ -177,11 +185,15 @@ const Account = () => {
           value={passwordData.confirmPassword}
           onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
         />
+        {passwordMessage && (
+          <p className={`message ${passwordMessage.includes('succès') ? 'success' : 'error'}`}>
+            {passwordMessage}
+          </p>
+        )}
         <button className="save-button" onClick={handlePasswordChange}>
           Mettre à jour le mot de passe
         </button>
       </div>
-      {message && <p className="message">{message}</p>}
     </div>
   );
 };

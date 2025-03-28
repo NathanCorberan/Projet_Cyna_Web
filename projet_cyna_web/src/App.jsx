@@ -76,7 +76,7 @@ function App() {
   };
 
   return (
-    <>
+    <div className="app-container">
       <header className="header">
         <Link to="/">
           <img src={logo} alt="Logo" className="logo" />
@@ -128,7 +128,7 @@ function App() {
           <Route path="/login" element={isLoggedIn ? <Navigate to="/account" /> : <Login onLogin={fetchUserData} />} />
           <Route path="/register" element={<Register onRegister={fetchUserData} />} />
           <Route path="/categories" element={<Categories />} />
-          <Route path="/account" element={<Account />} />
+          <Route path="/account" element={<Account onUpdateFirstName={setFirstName} />} />
         </Routes>
       </main>
       <footer className="footer">
@@ -247,7 +247,7 @@ function App() {
         </ul>
       </aside>
       <div className={`overlay ${isSidebarOpen ? 'show' : ''}`} onClick={toggleSidebar}></div>
-    </>
+    </div>
   );
 }
 

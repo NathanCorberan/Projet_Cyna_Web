@@ -62,11 +62,23 @@ const Register = ({ onRegister }) => {
         <i className="fa-solid fa-envelope"></i>
       </div>
       <div className="input-container">
-        <input type="text" placeholder="Nom" value={lastName} onChange={(e) => setLastName(e.target.value)} />
+        <input
+          type="text"
+          placeholder="Nom"
+          value={lastName}
+          maxLength={30} // Limite à 30 caractères
+          onChange={(e) => setLastName(e.target.value)}
+        />
         <i className="fa-solid fa-user"></i>
       </div>
       <div className="input-container">
-        <input type="text" placeholder="Prénom" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+        <input
+          type="text"
+          placeholder="Prénom"
+          value={firstName}
+          maxLength={30} // Limite à 30 caractères
+          onChange={(e) => setFirstName(e.target.value)}
+        />
         <i className="fa-solid fa-user"></i>
       </div>
       <div className="input-container">

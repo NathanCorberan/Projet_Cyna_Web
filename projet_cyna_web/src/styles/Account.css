@@ -81,3 +81,16 @@
     margin-top: 0;
     color: var(--primary-color);
   }
+
+  .message {
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .message.error {
+    color: red; /* Couleur rouge pour les erreurs */
+  }
+
+  .message.success {
+    color: green; /* Couleur verte pour les succès */
+  }
