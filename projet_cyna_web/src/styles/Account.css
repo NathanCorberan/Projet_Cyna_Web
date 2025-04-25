@@ -16,21 +16,6 @@
     color: var(--primary-color);
   }
   
-  .profile-section {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    width: 100%;
-  }
-  
-  .profile-picture {
-    width: 100px;
-    height: 100px;
-    background-color: var(--primary-color);
-    border-radius: 8px;
-    margin-right: 1rem;
-  }
-  
   .name-fields {
     flex: 1;
     display: flex;
@@ -44,6 +29,12 @@
     margin-bottom: 1rem;
     border: 1px solid var(--text-color);
     border-radius: 4px;
+  }
+
+  .input-field:disabled {
+    background-color: #e0e0e0;
+    color: #888;
+    cursor: not-allowed;
   }
   
   .change-password-text {

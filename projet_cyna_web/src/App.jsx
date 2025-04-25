@@ -9,6 +9,7 @@ import Register from './pages/Register';
 import Categories from './pages/Categories';
 import Carousel from './components/Carousel';
 import Account from './pages/Account';
+import Cart from './pages/Cart';
 
 const images = [
   'http://img.juku7704.odns.fr/SOC.png',
@@ -28,7 +29,7 @@ function App() {
   const navigate = useNavigate();
 
   // requete a l api
-  const fetchUserData = async (token) => { 
+  const fetchUserData = async (token) => {
     try {
       const response = await axios.get('http://api.juku7704.odns.fr/api/me', {
         headers: {
@@ -72,7 +73,7 @@ function App() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     setIsLoggedIn(false);
-    navigate('/'); 
+    navigate('/');
   };
 
   return (
@@ -91,7 +92,7 @@ function App() {
         <div className="icons">
           {isLoggedIn && <span className="welcome-message">Bonjour, {firstName}</span>}
           <i className="fa-solid fa-language"></i>
-          <i className="fa-solid fa-cart-shopping"></i>
+          <i className="fa-solid fa-cart-shopping" onClick={() => navigate('/cart')}></i>
           <Link to={isLoggedIn ? "/account" : "/login"}>
             <i className="fa-solid fa-circle-user"></i>
           </Link>
@@ -103,9 +104,13 @@ function App() {
           <Route path="/" element={
             <>
               <h1>Cyna protège les entreprises contre les cyberattaques</h1>
-              <p><strong>Explorez nos produits et services.</strong></p>
-              <br></br>
+              <br />
+              <h2>Actualités et nouveautés</h2>
+              <div className="news-card">
+                <p>Aucun événement en cours</p>
+              </div>
               <Carousel images={images} />
+              <h2>Catégories</h2>
               <div className="cards-container">
                 <div className="card">
                   <h2>SOC</h2>
@@ -123,12 +128,14 @@ function App() {
                   <p>Les solutions <strong>EDR</strong> détectent, analysent et stoppent les menaces directement sur vos postes de travail et serveurs.</p>
                 </div>
               </div>
+              <h2>Top du moment</h2>
             </>
           } />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/account" /> : <Login onLogin={fetchUserData} />} />
           <Route path="/register" element={<Register onRegister={fetchUserData} />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/account" element={<Account onUpdateFirstName={setFirstName} />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </main>
       <footer className="footer">
@@ -167,7 +174,7 @@ function App() {
             onMouseLeave={handleMouseLeave}
             onClick={() => {
               handleMenuClick('categories');
-              navigate('/categories'); 
+              navigate('/categories');
               toggleSidebar();
             }}
             className={activeMenu === 'categories' || selectedMenu === 'categories' ? 'active' : ''}
@@ -204,7 +211,11 @@ function App() {
               <li
                 onMouseEnter={() => handleMouseEnter('mon-panier')}
                 onMouseLeave={handleMouseLeave}
-                onClick={() => handleMenuClick('mon-panier')}
+                onClick={() => {
+                  handleMenuClick('mon-panier');
+                  navigate('/cart');
+                  toggleSidebar();
+                }}
                 className={activeMenu === 'mon-panier' || selectedMenu === 'mon-panier' ? 'active' : ''}
               >
                 Mon panier

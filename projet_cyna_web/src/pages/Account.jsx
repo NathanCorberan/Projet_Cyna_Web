@@ -124,10 +124,10 @@ const Account = ({ onUpdateFirstName }) => {
       <h2>Paramètres du compte</h2>
       <div className="section-card">
         <h3>Informations générales</h3>
-        <div className="profile-section">
-          <div className="profile-picture"></div>
           <div className="name-fields">
+            <label htmlFor="lastName">Nom</label>
             <input
+              id="lastName"
               type="text"
               placeholder="Nom"
               className="input-field"
@@ -135,7 +135,9 @@ const Account = ({ onUpdateFirstName }) => {
               maxLength={30}
               onChange={(e) => setUserData({ ...userData, lastName: e.target.value })}
             />
+            <label htmlFor="firstName">Prénom</label>
             <input
+              id="firstName"
               type="text"
               placeholder="Prénom"
               className="input-field"
@@ -143,15 +145,17 @@ const Account = ({ onUpdateFirstName }) => {
               maxLength={30}
               onChange={(e) => setUserData({ ...userData, firstName: e.target.value })}
             />
+            <label htmlFor="email">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email"
+              className="input-field"
+              value={userData.email}
+              readOnly
+              disabled
+            />
           </div>
-        </div>
-        <input
-          type="email"
-          placeholder="Email"
-          className="input-field"
-          value={userData.email}
-          readOnly
-        />
         {generalMessage && (
           <p className={`message ${generalMessage.includes('succès') ? 'success' : 'error'}`}>
             {generalMessage}
