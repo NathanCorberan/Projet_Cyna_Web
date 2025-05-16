@@ -12,8 +12,8 @@ import Account from './pages/Account';
 import Cart from './pages/Cart';
 import Products from './pages/Products';
 import Reshearch from './pages/Reshearch';
+import Orders from './pages/Orders';
 import Checkout from './pages/Checkout';
-import Confirmation from './pages/Confirmation';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -179,8 +179,8 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/products" element={<Products />} />
           <Route path="/recherche" element={<Reshearch />} />
+          <Route path="/orders" element={<Orders />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </main>
       <footer className="footer">
@@ -250,54 +250,18 @@ function App() {
           >
             Produits
           </li>
-          <li>
-            <span
-              onClick={toggleSubMenu}
-              onMouseEnter={() => handleMouseEnter('commandes')}
-              onMouseLeave={handleMouseLeave}
-              className={activeMenu === 'commandes' || selectedMenu === 'commandes' ? 'active' : ''}
-            >
-              Commandes
-              <i className={`fa-solid ${isSubMenuOpen ? 'fa-chevron-up' : 'fa-chevron-down'}`} style={{ float: 'right' }}></i>
-            </span>
-            <ul className={`submenu ${isSubMenuOpen ? 'open' : ''}`}>
-              <li
-                onMouseEnter={() => handleMouseEnter('mon-panier')}
-                onMouseLeave={handleMouseLeave}
-                onClick={() => {
-                  handleMenuClick('mon-panier');
-                  navigate('/cart');
-                  toggleSidebar();
-                }}
-                className={activeMenu === 'mon-panier' || selectedMenu === 'mon-panier' ? 'active' : ''}
-              >
-                Mon panier
-              </li>
-              <li
-                onMouseEnter={() => handleMouseEnter('checkout')}
-                onMouseLeave={handleMouseLeave}
-                onClick={() => {
-                  handleMenuClick('checkout');
-                  navigate('/checkout');
-                  toggleSidebar();
-                }}
-                className={activeMenu === 'checkout' || selectedMenu === 'checkout' ? 'active' : ''}
-              >
-                Checkout
-              </li>
-              <li
-                onMouseEnter={() => handleMouseEnter('confirmation')}
-                onMouseLeave={handleMouseLeave}
-                onClick={() => {
-                  handleMenuClick('confirmation');
-                  navigate('/confirmation');
-                  toggleSidebar();
-                }}
-                className={activeMenu === 'confirmation' || selectedMenu === 'confirmation' ? 'active' : ''}
-              >
-                Confirmation
-              </li>
-            </ul>
+          <li
+            onMouseEnter={() => handleMouseEnter('commandes')}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => {
+              handleMenuClick('commandes');
+              navigate('/orders');
+              toggleSidebar();
+            }}
+            className={activeMenu === 'commandes' || selectedMenu === 'commandes' ? 'active' : ''}
+            style={{ cursor: 'pointer' }}
+          >
+            Commandes
           </li>
           <li
             onMouseEnter={() => handleMouseEnter('mon-compte')}

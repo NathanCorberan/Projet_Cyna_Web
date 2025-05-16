@@ -1,9 +1,32 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Ajout de l'import
 import '../styles/Cart.css';
 
 const Cart = () => {
-  const [cart, setCart] = React.useState(() => JSON.parse(localStorage.getItem('cart')) || []);
+  // On stocke le panier sous forme d'objet {id: produit, ...} pour éviter les doublons
+  const [cart, setCart] = React.useState(() => {
+    const raw = JSON.parse(localStorage.getItem('cart')) || [];
+    // Fusionne les produits identiques dès le chargement
+    const merged = {};
+    for (const item of raw) {
+      if (merged[item.id]) {
+        merged[item.id].quantity += item.quantity || 1;
+      } else {
+        merged[item.id] = { ...item, quantity: item.quantity || 1 };
+      }
+    }
+    return Object.values(merged);
+  });
+  const navigate = useNavigate(); // Initialisation du hook
 
+  // Corrige l'affichage des images (ajoute http:// et trim)
+  const getImageUrl = (item) => {
+    const link = item.productImages?.[0]?.image_link;
+    if (!link) return null;
+    return 'http://' + link.trim().replace(/^https?:\/\//, '');
+  };
+
+  // Met à jour la quantité d'un produit
   const handleQuantityChange = (id, quantity) => {
     const updatedCart = cart.map(item =>
       item.id === id ? { ...item, quantity: Number(quantity) } : item
@@ -12,14 +35,32 @@ const Cart = () => {
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  // Supprime un produit du panier
   const handleRemove = (id) => {
     const updatedCart = cart.filter(item => item.id !== id);
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+  // Ajout d'un produit au panier (à utiliser dans Products.jsx)
+  // Si le produit existe déjà, on incrémente la quantité, sinon on l'ajoute
+  Cart.addProduct = (product) => {
+    setCart(prevCart => {
+      const found = prevCart.find(item => item.id === product.id);
+      let updatedCart;
+      if (found) {
+        updatedCart = prevCart.map(item =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
+      } else {
+        updatedCart = [...prevCart, { ...product, quantity: 1 }];
+      }
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      return updatedCart;
+    });
+  };
+
   const total = cart.reduce((sum, item) => {
-    // On prend le premier prix dispo (si plusieurs subscriptions)
     let price = 0;
     if (item.subscriptionTypes && item.subscriptionTypes[0]) {
       price = parseFloat((item.subscriptionTypes[0].price || '0').replace(/[^\d.,]/g, '').replace(',', '.'));
@@ -39,8 +80,8 @@ const Cart = () => {
             cart.map(item => (
               <div className="product" key={item.id}>
                 <div className="product-image">
-                  {item.productImages?.[0]?.image_link ? (
-                    <img src={item.productImages[0].image_link} alt={item.productLangages?.[0]?.name || item.name} style={{width:'50px',height:'50px',objectFit:'cover'}} />
+                  {getImageUrl(item) ? (
+                    <img src={getImageUrl(item)} alt={item.productLangages?.[0]?.name || item.name} style={{width:'50px',height:'50px',objectFit:'cover'}} />
                   ) : 'Image'}
                 </div>
                 <div className="product-details">
@@ -55,7 +96,16 @@ const Cart = () => {
                 <div className="product-total">
                   {item.subscriptionTypes?.[0]?.price ? `${(parseFloat((item.subscriptionTypes[0].price || '0').replace(/[^\d.,]/g, '').replace(',', '.')) * (item.quantity || 1)).toFixed(2)} €` : '0,00 €'}
                 </div>
-                <i className="fa-solid fa-trash product-remove" onClick={() => handleRemove(item.id)}></i>
+                <button
+                  className="product-remove"
+                  aria-label="Supprimer le produit"
+                  onClick={() => handleRemove(item.id)}
+                  tabIndex={0}
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') handleRemove(item.id); }}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+                >
+                  <i className="fa-solid fa-trash"></i>
+                </button>
               </div>
             ))
           )}
@@ -76,7 +126,7 @@ const Cart = () => {
               <span>{(total + (total > 70 ? 0 : 5)).toFixed(2)} €</span>
             </div>
             <br />
-            <button className="validate-button">Valider ma commande</button>
+            <button className="validate-button" onClick={() => navigate('/checkout')}>Valider ma commande</button>
           </div>
           <div className="promo-card">
             <input type="text" placeholder="Code promo" className="promo-input" />

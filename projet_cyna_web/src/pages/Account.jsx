@@ -16,6 +16,10 @@ const Account = ({ onUpdateFirstName }) => {
   });
   const [generalMessage, setGeneralMessage] = useState(''); // Message pour nom et prénom
   const [passwordMessage, setPasswordMessage] = useState(''); // Message pour mot de passe
+  const [addresses, setAddresses] = useState([]);
+  const [addressForm, setAddressForm] = useState({ line1: '', line2: '', city: '', zip: '' });
+  const [editId, setEditId] = useState(null);
+  const [addressMessage, setAddressMessage] = useState('');
 
   const fetchUserData = async () => {
     const token = localStorage.getItem('token');
@@ -34,6 +38,11 @@ const Account = ({ onUpdateFirstName }) => {
         firstName: response.data.first_name || '',
         email: response.data.email || '',
       });
+      // Récupère les adresses
+      const addrRes = await axios.get('http://api.juku7704.odns.fr/api/user_addresses', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAddresses(addrRes.data.member || []);
     } catch (error) {
       console.error('Erreur lors de la récupération des informations utilisateur', error);
     }
@@ -112,6 +121,46 @@ const Account = ({ onUpdateFirstName }) => {
     } catch (error) {
       console.error('Erreur lors de la mise à jour du mot de passe', error);
       setPasswordMessage('Erreur lors de la mise à jour du mot de passe.');
+    }
+  };
+
+  // Ajout ou modification d'adresse
+  const handleAddressSave = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    try {
+      if (editId) {
+        await axios.patch(`http://api.juku7704.odns.fr/api/user_addresses/${editId}`, addressForm, {
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/merge-patch+json' },
+        });
+        setAddressMessage('Adresse modifiée avec succès.');
+      } else {
+        await axios.post('http://api.juku7704.odns.fr/api/user_addresses', addressForm, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setAddressMessage('Adresse ajoutée avec succès.');
+      }
+      setAddressForm({ line1: '', line2: '', city: '', zip: '' });
+      setEditId(null);
+      fetchUserData();
+    } catch (error) {
+      setAddressMessage('Erreur lors de la sauvegarde de l\'adresse.');
+    }
+  };
+
+  // Suppression d'adresse
+  const handleAddressDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    try {
+      await axios.delete(`http://api.juku7704.odns.fr/api/user_addresses/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setAddressMessage('Adresse supprimée.');
+      fetchUserData();
+    } catch (error) {
+      setAddressMessage('Erreur lors de la suppression de l\'adresse.');
     }
   };
 
@@ -197,6 +246,30 @@ const Account = ({ onUpdateFirstName }) => {
         <button className="save-button" onClick={handlePasswordChange}>
           Mettre à jour le mot de passe
         </button>
+      </div>
+      <div className="section-card">
+        <h3>Adresses (max 3)</h3>
+        {addresses.length < 3 && (
+          <form onSubmit={handleAddressSave} className="address-form">
+            <input type="text" placeholder="Adresse ligne 1" value={addressForm.line1} onChange={e => setAddressForm({ ...addressForm, line1: e.target.value })} required />
+            <input type="text" placeholder="Adresse ligne 2" value={addressForm.line2} onChange={e => setAddressForm({ ...addressForm, line2: e.target.value })} />
+            <input type="text" placeholder="Ville" value={addressForm.city} onChange={e => setAddressForm({ ...addressForm, city: e.target.value })} required />
+            <input type="text" placeholder="Code postal" value={addressForm.zip} onChange={e => setAddressForm({ ...addressForm, zip: e.target.value })} required />
+            <button type="submit">{editId ? 'Modifier' : 'Ajouter'} l'adresse</button>
+          </form>
+        )}
+        {addressMessage && <p className="message">{addressMessage}</p>}
+        <div className="addresses-list">
+          {addresses.map(addr => (
+            <div key={addr.id} className="address-card">
+              <p>{addr.line1}</p>
+              <p>{addr.line2}</p>
+              <p>{addr.city}, {addr.zip}</p>
+              <button onClick={() => { setEditId(addr.id); setAddressForm({ line1: addr.line1, line2: addr.line2, city: addr.city, zip: addr.zip }); }}>Modifier</button>
+              <button onClick={() => handleAddressDelete(addr.id)}>Supprimer</button>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
