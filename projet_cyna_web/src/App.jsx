@@ -62,7 +62,7 @@ function App() {
       .catch(() => setTopProducts([]));
     // Récupérer les images du carousel (exemple: images des produits top)
     axios.get('http://api.juku7704.odns.fr/api/products?top=true')
-      .then(res => setCarouselImages((res.data.member || []).flatMap(p => p.productImages?.map(img => img.image_link) || [])))
+      .then(res => setCarouselImages((res.data.member || []).flatMap(p => p.productImages?.map(img => 'http://' + img.image_link.trim().replace(/^https?:\/\//, '')) || [])))
       .catch(() => setCarouselImages([]));
   }, []);
 
@@ -161,7 +161,7 @@ function App() {
                       <h2>{prod.productLangages?.[0]?.name || prod.name}</h2>
                       <p>{prod.productLangages?.[0]?.description}</p>
                       {prod.productImages?.[0]?.image_link && (
-                        <img src={prod.productImages[0].image_link} alt={prod.productLangages?.[0]?.name} style={{width:'100%',maxWidth:'150px'}} />
+                        <img src={`http://${prod.productImages[0].image_link.trim().replace(/^https?:\/\//, '')}`} alt={prod.productLangages?.[0]?.name} style={{width:'100%',maxWidth:'150px'}} />
                       )}
                       {prod.subscriptionTypes && prod.subscriptionTypes.map(sub => (
                         <p key={sub.id}>{sub.type} : {sub.price}</p>

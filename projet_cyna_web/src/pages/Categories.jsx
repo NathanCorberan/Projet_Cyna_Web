@@ -54,7 +54,7 @@ const Categories = () => {
                   <h2>{product.productLangages?.[0]?.name || product.name}</h2>
                   <p>{product.productLangages?.[0]?.description}</p>
                   {product.productImages?.[0]?.image_link && (
-                    <img src={product.productImages[0].image_link} alt={product.productLangages?.[0]?.name} style={{width:'100%',maxWidth:'150px'}} />
+                    <img src={`http://${product.productImages[0].image_link.trim().replace(/^https?:\/\//, '')}`} alt={product.productLangages?.[0]?.name} style={{width:'100%',maxWidth:'150px'}} />
                   )}
                   <p>Stock : {product.available_stock}</p>
                   {product.subscriptionTypes && product.subscriptionTypes.map((sub, idx) => (
