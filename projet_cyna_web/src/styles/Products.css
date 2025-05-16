@@ -1,0 +1,30 @@
+.products-page {
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+.products-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+.product-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 250px;
+  text-align: center;
+}
+.product-card .price {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+.product-card button {
+  margin-top: 1rem;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}

@@ -1,0 +1,12 @@
+.confirmation-page {
+  max-width: 600px;
+  margin: 2rem auto;
+  text-align: center;
+}
+.confirmation-page h1 {
+  color: var(--primary-color);
+}
+.confirmation-page a {
+  color: var(--primary-color);
+  text-decoration: underline;
+}

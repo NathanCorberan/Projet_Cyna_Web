@@ -10,14 +10,10 @@ import Categories from './pages/Categories';
 import Carousel from './components/Carousel';
 import Account from './pages/Account';
 import Cart from './pages/Cart';
-
-const images = [
-  'http://img.juku7704.odns.fr/SOC.png',
-  'http://img.juku7704.odns.fr/XDR.png',
-  'http://img.juku7704.odns.fr/EDR.png',
-  'http://img.juku7704.odns.fr/carousel-img-1.png',
-  'http://img.juku7704.odns.fr/carousel-img-2.png',
-];
+import Products from './pages/Products';
+import Reshearch from './pages/Reshearch';
+import Checkout from './pages/Checkout';
+import Confirmation from './pages/Confirmation';
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -26,6 +22,10 @@ function App() {
   const [selectedMenu, setSelectedMenu] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [firstName, setFirstName] = useState('');
+  const [news, setNews] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [topProducts, setTopProducts] = useState([]);
+  const [carouselImages, setCarouselImages] = useState([]);
   const navigate = useNavigate();
 
   // requete a l api
@@ -48,6 +48,22 @@ function App() {
     if (token) {
       fetchUserData(token);
     }
+    // Récupérer les actualités
+    axios.get('http://api.juku7704.odns.fr/api/news')
+      .then(res => setNews(res.data.member || []))
+      .catch(() => setNews([]));
+    // Récupérer les catégories
+    axios.get('http://api.juku7704.odns.fr/api/categories')
+      .then(res => setCategories(res.data.member || []))
+      .catch(() => setCategories([]));
+    // Récupérer les produits populaires/top
+    axios.get('http://api.juku7704.odns.fr/api/products?top=true')
+      .then(res => setTopProducts(res.data.member || []))
+      .catch(() => setTopProducts([]));
+    // Récupérer les images du carousel (exemple: images des produits top)
+    axios.get('http://api.juku7704.odns.fr/api/products?top=true')
+      .then(res => setCarouselImages((res.data.member || []).flatMap(p => p.productImages?.map(img => img.image_link) || [])))
+      .catch(() => setCarouselImages([]));
   }, []);
 
   const toggleSidebar = () => {
@@ -107,28 +123,53 @@ function App() {
               <br />
               <h2>Actualités et nouveautés</h2>
               <div className="news-card">
-                <p>Aucun événement en cours</p>
+                {news.length === 0 ? (
+                  <p>Aucune actualité pour le moment</p>
+                ) : (
+                  news.map((item, idx) => (
+                    <p key={item.id || idx}>{item.title} - {item.content}</p>
+                  ))
+                )}
               </div>
-              <Carousel images={images} />
+              <Carousel images={carouselImages.length ? carouselImages : [
+                'http://img.juku7704.odns.fr/SOC.png',
+                'http://img.juku7704.odns.fr/XDR.png',
+                'http://img.juku7704.odns.fr/EDR.png',
+                'http://img.juku7704.odns.fr/carousel-img-1.png',
+                'http://img.juku7704.odns.fr/carousel-img-2.png',
+              ]} />
               <h2>Catégories</h2>
               <div className="cards-container">
-                <div className="card">
-                  <h2>SOC</h2>
-                  <h3>SOC – Surveillez, détectez, protégez !</h3>
-                  <p>Un <strong>SOC</strong> assure une surveillance 24/7 pour identifier et neutraliser les cybermenaces avant qu'elles ne vous affectent.</p>
-                </div>
-                <div className="card">
-                  <h2>XDR</h2>
-                  <h3>XDR – La défense avancée unifiée</h3>
-                  <p>Avec <strong>XDR</strong>, bénéficiez d’une protection intelligente en connectant et analysant toutes vos sources de données pour une réponse plus rapide.</p>
-                </div>
-                <div className="card">
-                  <h2>EDR</h2>
-                  <h3>EDR – Sécurité maximale pour vos terminaux</h3>
-                  <p>Les solutions <strong>EDR</strong> détectent, analysent et stoppent les menaces directement sur vos postes de travail et serveurs.</p>
-                </div>
+                {categories.length === 0 ? (
+                  <p>Aucune catégorie disponible</p>
+                ) : (
+                  categories.map(cat => (
+                    <div className="card" key={cat.id}>
+                      <h2>{cat.name}</h2>
+                      {cat.imageLink && <img src={`http://${cat.imageLink}`} alt={cat.name} style={{width:'100%',maxWidth:'150px'}} />}
+                    </div>
+                  ))
+                )}
               </div>
               <h2>Top du moment</h2>
+              <div className="cards-container">
+                {topProducts.length === 0 ? (
+                  <p>Aucun produit populaire actuellement</p>
+                ) : (
+                  topProducts.map(prod => (
+                    <div className="card" key={prod.id}>
+                      <h2>{prod.productLangages?.[0]?.name || prod.name}</h2>
+                      <p>{prod.productLangages?.[0]?.description}</p>
+                      {prod.productImages?.[0]?.image_link && (
+                        <img src={prod.productImages[0].image_link} alt={prod.productLangages?.[0]?.name} style={{width:'100%',maxWidth:'150px'}} />
+                      )}
+                      {prod.subscriptionTypes && prod.subscriptionTypes.map(sub => (
+                        <p key={sub.id}>{sub.type} : {sub.price}</p>
+                      ))}
+                    </div>
+                  ))
+                )}
+              </div>
             </>
           } />
           <Route path="/login" element={isLoggedIn ? <Navigate to="/account" /> : <Login onLogin={fetchUserData} />} />
@@ -136,6 +177,10 @@ function App() {
           <Route path="/categories" element={<Categories />} />
           <Route path="/account" element={<Account onUpdateFirstName={setFirstName} />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/products" element={<Products />} />
+          <Route path="/recherche" element={<Reshearch />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/confirmation" element={<Confirmation />} />
         </Routes>
       </main>
       <footer className="footer">
@@ -184,7 +229,11 @@ function App() {
           <li
             onMouseEnter={() => handleMouseEnter('recherche')}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleMenuClick('recherche')}
+            onClick={() => {
+              handleMenuClick('recherche');
+              navigate('/recherche');
+              toggleSidebar();
+            }}
             className={activeMenu === 'recherche' || selectedMenu === 'recherche' ? 'active' : ''}
           >
             Recherche
@@ -192,7 +241,11 @@ function App() {
           <li
             onMouseEnter={() => handleMouseEnter('produits')}
             onMouseLeave={handleMouseLeave}
-            onClick={() => handleMenuClick('produits')}
+            onClick={() => {
+              handleMenuClick('produits');
+              navigate('/products');
+              toggleSidebar();
+            }}
             className={activeMenu === 'produits' || selectedMenu === 'produits' ? 'active' : ''}
           >
             Produits
@@ -223,7 +276,11 @@ function App() {
               <li
                 onMouseEnter={() => handleMouseEnter('checkout')}
                 onMouseLeave={handleMouseLeave}
-                onClick={() => handleMenuClick('checkout')}
+                onClick={() => {
+                  handleMenuClick('checkout');
+                  navigate('/checkout');
+                  toggleSidebar();
+                }}
                 className={activeMenu === 'checkout' || selectedMenu === 'checkout' ? 'active' : ''}
               >
                 Checkout
@@ -231,7 +288,11 @@ function App() {
               <li
                 onMouseEnter={() => handleMouseEnter('confirmation')}
                 onMouseLeave={handleMouseLeave}
-                onClick={() => handleMenuClick('confirmation')}
+                onClick={() => {
+                  handleMenuClick('confirmation');
+                  navigate('/confirmation');
+                  toggleSidebar();
+                }}
                 className={activeMenu === 'confirmation' || selectedMenu === 'confirmation' ? 'active' : ''}
               >
                 Confirmation

@@ -1,0 +1,35 @@
+.checkout-page {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+.checkout-cart {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+}
+.checkout-product {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+.checkout-form input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.checkout-form button {
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.error {
+  color: red;
+  margin-bottom: 1rem;
+}

@@ -1,37 +1,72 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import '../styles/Categories.css';
 
-const products = [
-  { name: 'Produit 1', price: '20€', inStock: true },
-  { name: 'Produit 2', price: '30€', inStock: false },
-  { name: 'Produit 3', price: '25€', inStock: true },
-  { name: 'Produit 4', price: '40€', inStock: false },
-  { name: 'Produit 5', price: '15€', inStock: true },
-  { name: 'Produit 6', price: '50€', inStock: true },
-];
-
 const Categories = () => {
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://api.juku7704.odns.fr/api/categories')
+      .then(res => setCategories(res.data.member || []));
+  }, []);
+
+  useEffect(() => {
+    if (selectedCategory) {
+      axios.get('http://api.juku7704.odns.fr/api/products')
+        .then(res => {
+          const allProducts = res.data.member || [];
+          const filtered = allProducts.filter(p => p.category_name === selectedCategory.name);
+          setProducts(filtered);
+        });
+    } else {
+      setProducts([]);
+    }
+  }, [selectedCategory]);
+
   return (
     <div className="categories-page">
-      <div className="category-header">
-        <img src="http://img.juku7704.odns.fr/SOC.png" alt="Catégorie" className="category-image" />
-        <div className="category-overlay">
-          <h1>Security Operations center</h1>
-        </div>
-      </div>
-      <div className="category-description">
-        <h2>Protéger votre entreprise avec un SOC</h2>
-        <p className="descriptionCategories">Un <strong>SOC (Security Operations Center)</strong> est une solution essentielle pour surveiller, analyser et répondre aux cybermenaces en temps réel. Grâce à une équipe d'experts et à des outils avancés, il assure une protection continue des infrastructures informatiques, détecte les anomalies et prévient les attaques avant qu'elles ne causent des dommages. Opter pour un SOC, c'est garantir une <strong>cybersécurité renforcée et une tranquillité d'esprit</strong> face aux menaces numériques.</p>
-      </div>
-      <div className="products-grid">
-        {products.map((product, index) => (
-          <div key={index} className={`product-card ${!product.inStock ? 'out-of-stock' : ''}`}>
-            <h2>{product.name}</h2>
-            <p>{product.price}</p>
-            {!product.inStock && <p className="stock-status">Stock épuisé</p>}
+      <h1>Catégories</h1>
+      <div className="cards-container">
+        {categories.map(cat => (
+          <div
+            className={`card${selectedCategory && selectedCategory.id === cat.id ? ' active' : ''}`}
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat)}
+            style={{ cursor: 'pointer' }}
+          >
+            <h2>{cat.name}</h2>
+            {/* Affichage image si dispo */}
+            {cat.imageLink && <img src={`http://${cat.imageLink}`} alt={cat.name} style={{width:'100%',maxWidth:'150px'}} />}
           </div>
         ))}
       </div>
+      {selectedCategory && (
+        <>
+          <h2>Produits de la catégorie {selectedCategory.name}</h2>
+          <div className="products-grid">
+            {products.length === 0 ? (
+              <p>Aucun produit dans cette catégorie</p>
+            ) : (
+              products.map(product => (
+                <div key={product.id} className="product-card">
+                  <h2>{product.productLangages?.[0]?.name || product.name}</h2>
+                  <p>{product.productLangages?.[0]?.description}</p>
+                  {product.productImages?.[0]?.image_link && (
+                    <img src={product.productImages[0].image_link} alt={product.productLangages?.[0]?.name} style={{width:'100%',maxWidth:'150px'}} />
+                  )}
+                  <p>Stock : {product.available_stock}</p>
+                  {product.subscriptionTypes && product.subscriptionTypes.map((sub, idx) => (
+                    <p key={idx}>{sub.type} : {sub.price}</p>
+                  ))}
+                  {product.available_stock === 0 && <p className="stock-status">Stock épuisé</p>}
+                </div>
+              ))
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };
